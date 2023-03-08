@@ -51,8 +51,6 @@ export async function isFile(filePath) {
   }
 }
 
-isFile(".gitignre").then((result) => console.log(result));
-
 export async function isDir(filePath) {
   try {
     const stat = await fs.stat(filePath);
@@ -68,7 +66,7 @@ export async function isDir(filePath) {
 
 export async function writeJSON(jsonPath, jsonData) {
   // Convert the JSON data into a string
-  const dataStr = JSON.stringify(jsonData);
+  const dataStr = JSON.stringify(jsonData, null, 2);
 
   // Use the "fs" module to write the stringified JSON data to a file located at "jsonPath"
   await fs.writeFile(jsonPath, dataStr);

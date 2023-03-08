@@ -9,6 +9,7 @@ import {
   writeJSON,
 } from "./utils.js";
 import path from "path";
+import { readFile } from "fs/promises";
 
 nunjucks.configure({
   noCache: true,
@@ -31,9 +32,18 @@ const server = http.createServer(async (request, response) => {
   }
 });
 
+async function renderFilePath(response, filePath) {
+  if (await isFile(filePath)) {
+    const fileContent = await readFile(filePath);
+    response.end(fileContent);
+  } else {
+    render404(response);
+  }
+}
+
 async function handleServer(request, response) {
   const requestURLData = new URL(request.url, "http://localhost:3000");
-  console.log("New request", {
+  console.info(`\n---\nRequest ${new Date().getTime()}`, {
     method: request.method,
     url: request.url,
     requestURLData,
@@ -41,7 +51,9 @@ async function handleServer(request, response) {
 
   if (request.method === "GET") {
     if (path.extname(requestURLData.pathname) !== "") {
-      render404(response);
+      const publicFilePath = `src/public${requestURLData.pathname}`;
+      console.log({ publicFilePath });
+      await renderFilePath(response, publicFilePath);
       return;
     }
 
@@ -79,5 +91,5 @@ async function handleServer(request, response) {
 }
 
 server.listen(3000, () => {
-  console.log("Server started on port 3000");
+  console.info("Server started on port 3000");
 });
