@@ -15,12 +15,8 @@ nunjucks.configure({
   noCache: true,
 });
 
-function render404(response) {
-  response.statusCode = 404;
-  response.end("Page not found");
-}
-
 const CONTENT_DATA_PATH = "src/data/content.json";
+const PORT = 3000;
 
 const server = http.createServer(async (request, response) => {
   try {
@@ -32,17 +28,8 @@ const server = http.createServer(async (request, response) => {
   }
 });
 
-async function renderFilePath(response, filePath) {
-  if (await isFile(filePath)) {
-    const fileContent = await readFile(filePath);
-    response.end(fileContent);
-  } else {
-    render404(response);
-  }
-}
-
 async function handleServer(request, response) {
-  const requestURLData = new URL(request.url, "http://localhost:3000");
+  const requestURLData = new URL(request.url, `http://localhost:${PORT}`);
   console.info(`\n---\nRequest ${new Date().getTime()}`, {
     method: request.method,
     url: request.url,
@@ -51,9 +38,9 @@ async function handleServer(request, response) {
 
   if (request.method === "GET") {
     if (path.extname(requestURLData.pathname) !== "") {
-      const publicFilePath = `src/public${requestURLData.pathname}`;
-      console.log({ publicFilePath });
-      await renderFilePath(response, publicFilePath);
+      const assetsFilePath = `src/assets${requestURLData.pathname}`;
+      console.log({ assetsFilePath });
+      await renderFilePath(response, assetsFilePath);
       return;
     }
 
@@ -90,6 +77,20 @@ async function handleServer(request, response) {
   }
 }
 
-server.listen(3000, () => {
-  console.info("Server started on port 3000");
+server.listen(PORT, () => {
+  console.info(`Server started on port ${PORT}`);
 });
+
+async function renderFilePath(response, filePath) {
+  if (await isFile(filePath)) {
+    const fileContent = await readFile(filePath);
+    response.end(fileContent);
+  } else {
+    render404(response);
+  }
+}
+
+function render404(response) {
+  response.statusCode = 404;
+  response.end("Page not found");
+}
