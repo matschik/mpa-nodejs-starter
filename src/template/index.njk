@@ -1,0 +1,37 @@
+{% extends "./_layout.njk" %}
+
+{% block main %}
+    <div class="container">
+        <div class="bg-white py-24 px-6 sm:py-32 lg:px-8">
+            {% if content.color %}
+                <div class="mx-auto max-w-2xl text-center">
+                    <p class="mt-6 text-lg leading-8 text-gray-600">Ma couleur préférée est</p>
+                    <h2 class="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
+                        {{ content.color }}
+                    </h2>
+                    <div class="mt-6">
+                        <a href="/form">
+                            <button type="button" class="inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                                Changer ma couleur
+                            </button>
+                        </a>
+                    </div>
+                </div>
+            {% else %}
+                <div class="text-center">
+                    <h3 class="mt-2 text-lg font-semibold text-gray-900">Votre couleur préférée n'a pas été renseignée</h3>
+                    <p class="mt-1 text-md text-gray-500">Choisissez votre couleur préférée dès maintenant !</p>
+                    <div class="mt-6">
+                        <a href="/form">
+                            <button type="button" class="inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                                Choisir ma couleur
+                            </button>
+                        </a>
+                    </div>
+                </div>
+
+            {% endif %}
+
+        </div>
+    </div>
+{% endblock %}

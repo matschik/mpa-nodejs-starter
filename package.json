@@ -1,0 +1,21 @@
+{
+  "name": "ror-nodejs",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "autocannon": "^7.10.0",
+    "nodemon": "^2.0.21"
+  },
+  "dependencies": {
+    "nunjucks": "^3.2.3"
+  }
+}
